@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.mono {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100/50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-400;
+}
+
+/* Example card animations */
+.example-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.example-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.example-card:hover::before {
+  left: 100%;
+}
+
+.example-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.15);
+}
+
+/* Send button enhancements */
+.send-button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.send-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s;
+}
+
+.send-button:hover:not(:disabled)::before {
+  width: 300px;
+  height: 300px;
+}
+
+.send-button:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+/* Message content styling */
+.message-content h2 {
+  @apply text-xl font-semibold mt-6 mb-3 text-slate-900 first:mt-0;
+}
+
+.message-content h3 {
+  @apply text-lg font-semibold mt-4 mb-2 text-slate-800;
+}
+
+.message-content p {
+  @apply mb-3 last:mb-0 leading-relaxed;
+}
+
+.message-content ul {
+  @apply list-disc list-inside mb-3 space-y-1;
+}
+
+.message-content li {
+  @apply ml-4;
+}
+
+.message-content code {
+  @apply bg-slate-100 text-slate-800 px-2 py-1 rounded text-sm font-mono;
+}
+
+.message-content strong {
+  @apply font-semibold text-slate-900;
+}
+
+/* Loading animation improvements */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.loading-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Focus visible improvements */
+*:focus-visible {
+  @apply outline-2 outline-offset-2 outline-blue-500 rounded;
+}
+
+/* Selection styling */
+::selection {
+  @apply bg-blue-200 text-blue-900;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
