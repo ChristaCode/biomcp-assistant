@@ -1,47 +1,13 @@
-import express from 'express';
-import cors from 'cors';
 import dotenv from 'dotenv';
-import fs from 'fs';
-import path from 'path';
-import { queryBioMCP, queryPubMedDirect } from './lib/biomcp.js';
+import { queryBioMCP, queryPubMedDirect } from '../lib/biomcp.js';
 
 dotenv.config();
 
-const logFile = path.join(process.cwd(), 'server.log');
-const logStream = fs.createWriteStream(logFile, { flags: 'a' });
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-const originalLog = console.log;
-const originalError = console.error;
-
-const log = (...args) => {
-  const message = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)).join(' ');
-  const timestamp = new Date().toISOString();
-  const logMessage = `[${timestamp}] ${message}\n`;
-  originalLog(...args);
-  logStream.write(logMessage);
-};
-
-console.log = log;
-console.error = (...args) => {
-  const message = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg, null, 2) : String(arg)).join(' ');
-  const timestamp = new Date().toISOString();
-  const logMessage = `[${timestamp}] ERROR: ${message}\n`;
-  originalError(...args);
-  logStream.write(logMessage);
-};
-
-const app = express();
-const PORT = process.env.PORT || 3001;
-
-app.use(cors());
-app.use(express.json());
-
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
-});
-
-
-app.post('/api/messages', async (req, res) => {
   try {
     const { messages } = req.body;
 
@@ -204,9 +170,5 @@ app.post('/api/messages', async (req, res) => {
       message: error.message 
     });
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+}
 
